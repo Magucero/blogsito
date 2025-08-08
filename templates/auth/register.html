@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}User Registration{% endblock %}
+
+{% block body %}
+    welcome to register
+
+    <div>
+       <form method="POST" action="">
+                    <div >
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div>
+                        <label for="email">Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div >
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div>
+                        <button type="submit">Save</button>
+                    </div>
+                </form>
+    </div>
+{% endblock %}
