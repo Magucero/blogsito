@@ -7,6 +7,16 @@
 </head>
 <body>
     <h1>welcome to Blogsito</h1>
+    <nav>
+        {%if current_user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+        </li>
+        
+        <h2>welcome, {{ current_user.username }}</h2>
+        {%endif%}
+    </nav>
+
 
 
     {% block body %}{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}posteos{% endblock %}
+
+{% block body %}
+<h1>Welcome to posteos</h1>
+
+    <div>
+       <form method="POST" action="">
+                    <div >
+                        <input type="text" placeholder="Titulo" id="tittle" name="tittle" required>
+                    </div>
+                    <div>
+                        <input type="text" placeholder="Escriba lo que esta pensando" id="content" name="content" required>
+                    </div>
+                    <div>
+                        <button type="submit">Save</button>
+                    </div>
+        </form>
+    </div>
+    
+
+
+
+{% endblock %}

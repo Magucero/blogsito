@@ -6,6 +6,13 @@
     <h1>hola soy el index</h1>
     <ul>
         <li><a href="/register">Registrate</a></li>
+        <li><a href="/login">Login</a></li>
+        {%if current_user.is_authenticated %}
+        <li><a href="/posts">Postear</a></li>
+        {%endif%}
     </ul>
+
+
+    <h4>esto lo puede ver todo el mundo</h4>
 
 {% endblock %}
