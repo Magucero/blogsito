@@ -17,6 +17,31 @@
                         <button type="submit">Save</button>
                     </div>
         </form>
+
+        <div class="col-5">
+        <table>
+            <th>Titulo</th>
+            <th>Hora</th>
+            <th>Contenido</th>
+            <th>Comentarios</th>
+            <th>Usuario</th>
+        <tr>
+            {% for post in postsList %}
+                <tr>
+                    <td>{{ post.tittle }}</td>
+                    <td>{{ post.date }}</td>
+                    <td>{{ post.content }}</td>
+                    <td>
+                        <h4> aca van a ir los comentarios</h4>
+                    </td>
+                    <td>{{ post.user.username }}</td> 
+                </tr>
+            {% endfor%}
+        </tr>    
+
+        </table>
+        </div>
+
     </div>
     
 

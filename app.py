@@ -47,6 +47,7 @@ def logout():
 
 @app.route('/posts',methods =['POST','GET'])
 def posts():
+    posts_list = Posts.query.all()
     if request.method == 'POST':
         now = datetime.now()
         tittle = request.form['tittle']
@@ -65,7 +66,8 @@ def posts():
         return redirect(url_for('index'))
     
     return render_template(
-        'posts.html'
+        'posts.html',
+        postsList = posts_list
     )
 
 
