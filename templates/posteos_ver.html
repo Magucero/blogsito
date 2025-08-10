@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}Posteos{% endblock %}
+
+{% block body %}
+<h1>{{posteo.tittle}}</h1>
+<h3>{{posteo.content}}</h3>
+<h4>Comentarios:</h4>
+        <table>
+            <th>id</th>
+            <th>name</th>
+            <th>Fecha/Hora</th>
+            <th>comentario</th>
+            
+        <tr>
+            {% for comentario in comentarios %}
+                <tr>
+                    <td>{{ comentario }}</td>
+                    <td>{{ comentario.user_c.username }}</td>
+                    <td> {{ comentario.date }}</td>
+                    <td>{{ comentario.contenido }}</td>
+
+                </tr>
+            {% endfor%}
+        </tr>    
+        </table>
+        <form method="POST" action="">
+            <div >
+                <input type="text" placeholder="comentar" id="comentario" name="comentario" required>
+            </div>
+            <div>
+                <button type="submit">Comentar</button></a>
+            </div>
+        </form>   
+               
+
+{% endblock %}

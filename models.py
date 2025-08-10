@@ -14,7 +14,12 @@ class User(db.Model,UserMixin):
         backref = 'user',
         lazy = True
     )
-
+    coments = db.relationship(
+        'Comentario',
+        backref = 'user_c',
+        lazy = True
+    )
+    
     def __str__(self):
         return self.username
     
@@ -26,14 +31,23 @@ class Posts(db.Model):
     content = db.Column(db.String(256),nullable=False)
     date = db.Column(db.DateTime, nullable= False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    comentarios = db.relationship(
+        'Comentario',
+        backref='posteo', #referencia a la relacion con Comentario
+        lazy=True
+    )
+    
     
     def __str__(self):
         return f'{self.tittle}-{self.date}-{self.content}- '
     
-
-class Otro(db.Model):
+class Comentario(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(100),nullable=False)
-
+    contenido = db.Column(db.String(256),nullable=False)
+    date = db.Column(db.DateTime, nullable= False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    
+    
     def __str__(self):
-        return self.name
+        return f'{self.user_id}'

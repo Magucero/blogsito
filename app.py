@@ -27,7 +27,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-from models import User,Posts
+from models import User,Posts,Comentario
 
 @login_manager.user_loader 
 def load_user(user_id):
@@ -35,9 +35,13 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
+    posts_list = Posts.query.all()
     return render_template(
-        'index.html'
+        'index.html',
+        postsList = posts_list
     )
+
+
 @app.route('/logout')
 def logout():
     logout_user()
@@ -45,9 +49,37 @@ def logout():
         'index')
     )
 
+@app.route('/posts/<int:posts_id>',methods = ['GET','POST'])
+def posteos_ver(posts_id):
+     comentarios = Comentario.query.all()
+     posteo = Posts.query.get_or_404(posts_id)    
+     
+     if request.method == 'POST':
+        id_post = posteo.id
+        now = datetime.now()
+        contenido = request.form['comentario'],
+
+        new_comentario = Comentario(
+            contenido = contenido,
+            date = now,
+            user_id = current_user.id,
+            post_id = id_post
+        )
+        db.session.add(new_comentario)
+        db.session.commit()
+        return redirect(url_for('posteos_ver',posts_id=posts_id))
+
+     return render_template(
+         'posteos_ver.html',
+              posteo = posteo,
+              comentarios = comentarios
+              )
+
+
 @app.route('/posts',methods =['POST','GET'])
 def posts():
     posts_list = Posts.query.all()
+    coment_list = Comentario.query.all()
     if request.method == 'POST':
         now = datetime.now()
         tittle = request.form['tittle']
@@ -67,7 +99,8 @@ def posts():
     
     return render_template(
         'posts.html',
-        postsList = posts_list
+        postsList = posts_list,
+        coment_list = coment_list
     )
 
 
