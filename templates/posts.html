@@ -43,25 +43,6 @@
         </tr>    
 
         </table>
-
-        <table>
-            <th>id</th>
-            <th>name</th>
-            <th>comentario</th>
-            
-        <tr>
-            {% for comentario in coment_list %}
-                <tr>
-                    <td>{{ comentario }}</td>
-                    <td>{{ comentario.user_c.username }}</td>
-                    <td>{{ comentario.contenido }}</td>
-
-                </tr>
-            {% endfor%}
-        </tr>    
-
-        </table>
-
         </div>
     </div>
     

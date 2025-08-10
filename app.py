@@ -51,7 +51,8 @@ def logout():
 
 @app.route('/posts/<int:posts_id>',methods = ['GET','POST'])
 def posteos_ver(posts_id):
-     comentarios = Comentario.query.all()
+     #comentarios = Comentario.query.all()
+     comentarios_filter = Comentario.query.filter_by(post_id = posts_id )
      posteo = Posts.query.get_or_404(posts_id)    
      
      if request.method == 'POST':
@@ -72,7 +73,7 @@ def posteos_ver(posts_id):
      return render_template(
          'posteos_ver.html',
               posteo = posteo,
-              comentarios = comentarios
+              comentarios = comentarios_filter
               )
 
 
@@ -95,7 +96,7 @@ def posts():
 
         db.session.add(post)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('posts'))
     
     return render_template(
         'posts.html',
@@ -149,7 +150,7 @@ def register():
         db.session.commit()
 
         flash('usuario creado con exito','succes')
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
 
     return render_template(
         'auth/register.html'

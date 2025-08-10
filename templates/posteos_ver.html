@@ -11,6 +11,7 @@
             <th>name</th>
             <th>Fecha/Hora</th>
             <th>comentario</th>
+            <th>id del posteo</th>
             
         <tr>
             {% for comentario in comentarios %}
@@ -19,6 +20,7 @@
                     <td>{{ comentario.user_c.username }}</td>
                     <td> {{ comentario.date }}</td>
                     <td>{{ comentario.contenido }}</td>
+                    <td>{{ comentario.posteo.id}}</td>
 
                 </tr>
             {% endfor%}
