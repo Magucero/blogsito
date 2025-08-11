@@ -1,5 +1,5 @@
 from app import db
-#agregar hora incoming
+
 from flask_login import UserMixin
 
 

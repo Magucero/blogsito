@@ -6,26 +6,32 @@
 <h1>{{posteo.tittle}}</h1>
 <h3>{{posteo.content}}</h3>
 <h4>Comentarios:</h4>
-        <table>
+        
+{% if not lista_comentarios %}
+    <h3>No hay comentarios aún :c</h3>
+{% else %}
+    <table>
+        <tr>
             <th>id</th>
             <th>name</th>
             <th>Fecha/Hora</th>
             <th>comentario</th>
             <th>id del posteo</th>
-            
-        <tr>
-            {% for comentario in comentarios %}
-                <tr>
-                    <td>{{ comentario }}</td>
-                    <td>{{ comentario.user_c.username }}</td>
-                    <td> {{ comentario.date }}</td>
-                    <td>{{ comentario.contenido }}</td>
-                    <td>{{ comentario.posteo.id}}</td>
+        </tr>
 
-                </tr>
-            {% endfor%}
-        </tr>    
-        </table>
+        {% for comentario in comentarios %}
+            <tr>
+                <td>{{ comentario.id }}</td>
+                <td>{{ comentario.user_c.username }}</td>
+                <td>{{ comentario.date }}</td>
+                <td>{{ comentario.contenido }}</td>
+                <td>{{ comentario.posteo.id }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+        
         <form method="POST" action="">
             <div >
                 <input type="text" placeholder="comentar" id="comentario" name="comentario" required>
