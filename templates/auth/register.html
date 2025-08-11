@@ -3,25 +3,127 @@
 {% block title %}User Registration{% endblock %}
 
 {% block body %}
-    welcome to register
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+
+        body {
+            background: black ;
+            color: #d4c7a1;
+            font-family: 'Cinzel', serif;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            color: #d4c7a1;
+            border-bottom: 2px solid #a88f4a;
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-bottom: 30px;
+        }
+
+        form {
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid #a88f4a;
+            padding: 25px;
+            border-radius: 8px;
+            width: 350px;
+            margin: 50px auto;
+            box-shadow: 0 0 25px #000;
+        }
+
+        label {
+            color: #c9b37e;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        input {
+            background-color: #1e1b17;
+            color: #d4c7a1;
+            border: 1px solid #5e4c2c;
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+            border-radius: 3px;
+            font-size: 14px;
+            font-family: 'Cinzel', serif;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #a88f4a;
+            box-shadow: 0 0 5px #a88f4a;
+        }
+
+        button {
+            background: linear-gradient(to bottom, #5e4c2c, #2f2617);
+            color: #d4c7a1;
+            padding: 10px 15px;
+            border: 1px solid #a88f4a;
+            border-radius: 3px;
+            font-size: 14px;
+            font-family: 'Cinzel', serif;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Efecto brasa */
+        button::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,140,0,0.4) 0%, transparent 70%);
+            transform: skewX(-20deg);
+            animation: ember-glow 2s infinite linear;
+        }
+
+        button:hover {
+            background: linear-gradient(to bottom, #8b5e3c, #3a2f1f);
+            box-shadow: 0 0 20px rgba(255,140,0,0.7);
+        }
+
+        button:hover::after {
+            left: 100%;
+            transition: left 0.6s ease;
+        }
+
+        @keyframes ember-glow {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+            100% { opacity: 0.3; }
+        }
+    </style>
+
+    <div style="text-align:center;">
+        <h1>Welcome to Register</h1>
+    </div>
 
     <div>
-       <form method="POST" action="">
-                    <div >
-                        <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
-                    </div>
-                    <div>
-                        <label for="email">Email Address</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div >
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
-                    <div>
-                        <button type="submit">Save</button>
-                    </div>
-                </form>
+        <form method="POST" action="">
+            <div>
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="email">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <div>
+                <button type="submit">Save</button>
+            </div>
+        </form>
     </div>
 {% endblock %}

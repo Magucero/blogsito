@@ -120,7 +120,7 @@ def posts():
         'posts.html',
         postsList = posts_list,
         coment_list = coment_list,
-        lista_posteos = lista_posteos
+        lista_posteos = lista_posteos 
     )
 
 #################################################################################

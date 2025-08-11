@@ -3,56 +3,147 @@
 {% block title %}posteos{% endblock %}
 
 {% block body %}
-<h1>Welcome to posteos</h1>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
 
-    <div>
-       <form method="POST" action="">
-                    <div >
-                        <input type="text" placeholder="Titulo" id="tittle" name="tittle" required>
-                    </div>
-                    <div>
-                        <input type="text" placeholder="Escriba lo que esta pensando" id="content" name="content" required>
-                    </div>
-                    <div>
-                        <button type="submit">Save</button>
-                    </div>
-        </form>
+    body {
+        background:black; 
+        color: #d4c7a1;
+        font-family: 'Cinzel', serif;
+        text-shadow: 2px 2px 4px #000;
+    }
 
-    <div>
+    h1 {
+        text-align: center;
+        font-size: 28px;
+        color: #d4c7a1;
+        border-bottom: 2px solid #a88f4a;
+        display: inline-block;
+        padding-bottom: 5px;
+        margin-bottom: 30px;
+    }
 
+    .card, .list-group-item {
+        background: rgba(0, 0, 0, 0.85);
+        border: 2px solid #a88f4a;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 0 25px #000;
+    }
 
-    {% if not lista_posteos %}
-    <h3>No hay posteos aún :c</h3>
-    {% else %}
-        <table>
-            <th>Titulo</th>
-            <th>Hora</th>
-            <th>Contenido</th>
-            <th>Usuario</th>
-            <th> usuario que comenta</th>
-            
-        <tr>
-            {% for post in postsList %}
-                <tr>
-                    <td>{{ post.tittle }}</td>
-                    <td>{{ post.date }}</td>
-                    <td>{{ post.content }}</td>
-                    <td>{{ post.user.username }}</td>
-                    <td>
-                        <a href="/posts/{{post.id}}">
-                            <button>ver comentarios</button>
-                        </a>
-                    </td>
-                </tr>
-            {% endfor%}
-        </tr>    
+    .form-control {
+        background-color: #1e1b17;
+        color: #d4c7a1;
+        border: 1px solid #5e4c2c;
+        border-radius: 3px;
+        font-size: 14px;
+        font-family: 'Cinzel', serif;
+    }
 
-        </table>
-    {%endif%}
+    .form-control:focus {
+        outline: none;
+        border-color: #a88f4a;
+        box-shadow: 0 0 5px #a88f4a;
+        background-color: #1e1b17;
+        color: #d4c7a1;
+    }
+
+    button {
+        background: linear-gradient(to bottom, #5e4c2c, #2f2617);
+        color: #d4c7a1;
+        padding: 10px 15px;
+        border: 1px solid #a88f4a;
+        border-radius: 3px;
+        font-size: 14px;
+        font-family: 'Cinzel', serif;
+        cursor: pointer;
+        transition: 0.3s;
+        width: 100%;
+        letter-spacing: 1px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Efecto brasa */
+    button::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 200%;
+        height: 100%;
+        background: radial-gradient(circle, rgba(255,140,0,0.4) 0%, transparent 70%);
+        transform: skewX(-20deg);
+        animation: ember-glow 2s infinite linear;
+    }
+
+    button:hover {
+        background: linear-gradient(to bottom, #8b5e3c, #3a2f1f);
+        box-shadow: 0 0 20px rgba(255,140,0,0.7);
+    }
+
+    button:hover::after {
+        left: 100%;
+        transition: left 0.6s ease;
+    }
+
+    @keyframes ember-glow {
+        0% { opacity: 0.3; }
+        50% { opacity: 0.7; }
+        100% { opacity: 0.3; }
+    }
+
+    .alert {
+        background: rgba(0,0,0,0.85);
+        border: 1px solid #a88f4a;
+        color: #d4c7a1;
+        font-family: 'Cinzel', serif;
+    }
+
+    .container {
+        max-width: 800px;
+    }
+</style>
+
+<div class="container my-4 text-center bg=blue">
+    <h1>Welcome to posteos</h1>
+
+    <!-- Formulario para crear post -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form method="POST" action="">
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Titulo" id="tittle" name="tittle" required>
+                </div>
+                <div class="mb-3">
+                    <textarea class="form-control" placeholder="Escriba lo que está pensando" id="content" name="content" rows="3" required></textarea>
+                </div>
+                <div>
+                    <button type="submit">Postear</button>
+                </div>
+            </form>
         </div>
     </div>
-    
 
-
-
+    <!-- Lista de posteos -->
+    {% if not lista_posteos %}
+        <div class="alert alert-secondary text-center">No hay posteos aún :c</div>
+    {% else %}
+        <div class="list-group">
+            {% for post in postsList %}
+                <div class="list-group-item list-group-item-action mb-3 rounded">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ post.tittle }}</h5>
+                        <small class="text-muted">{{ post.date }}</small>
+                    </div>
+                    <p class="mb-1">{{ post.content }}</p>
+                    <small class="text-primary">Por {{ post.user.username }}</small>
+                    <div class="mt-2">
+                        <a href="/posts/{{post.id}}" class="btn btn-outline-primary btn-sm" style="border-color:#a88f4a; color:#a88f4a;">Ver comentarios</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
 {% endblock %}
