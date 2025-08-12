@@ -7,7 +7,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
 
     body {
-        background:black; 
+        background:#0E0E0E; 
         color: #d4c7a1;
         font-family: 'Cinzel', serif;
         text-shadow: 2px 2px 4px #000;
@@ -24,17 +24,17 @@
     }
 
     .card, .list-group-item {
-        background: rgba(0, 0, 0, 0.85);
+        background: #543808eb;
         border: 2px solid #a88f4a;
         border-radius: 8px;
         padding: 20px;
-        box-shadow: 0 0 25px #000;
+        
     }
 
     .form-control {
-        background-color: #1e1b17;
+        background-color: #a88f4a;
         color: #d4c7a1;
-        border: 1px solid #5e4c2c;
+        border: 1px solid #754d08c5;
         border-radius: 3px;
         font-size: 14px;
         font-family: 'Cinzel', serif;
@@ -82,6 +82,10 @@
         box-shadow: 0 0 20px rgba(255,140,0,0.7);
     }
 
+    .list-group-item {
+        color: #D4C7A1;
+    }
+
     button:hover::after {
         left: 100%;
         transition: left 0.6s ease;
@@ -99,13 +103,39 @@
         color: #d4c7a1;
         font-family: 'Cinzel', serif;
     }
+    .text-mu{
+        color: #D4C7A1;
+    }
+    .usuario{
+        color: #D4C7A1;
+    }
+    
 
     .container {
         max-width: 800px;
     }
+     a {
+        color: #f5d782;
+        text-decoration: none;
+        font-size: 14px;
+        font-family: 'Cinzel', serif;
+        border: 1px solid #a88f4a;
+        padding: 8px 15px;
+        border-radius: 5px;
+        background: linear-gradient(to bottom, #5e4c2c, #2f2617);
+        transition: 0.3s;
+        display: inline-block;
+    }
+
+    a:hover {
+        background: linear-gradient(to bottom, #8b5e3c, #3a2f1f);
+        color: #fff3d4;
+        box-shadow: 0 0 15px rgba(255, 140, 0, 0.6);
+    }
+    
 </style>
 
-<div class="container my-4 text-center bg=blue">
+<div class="containerr my-4 text-center ">
     <h1>Welcome to posteos</h1>
 
     <!-- Formulario para crear post -->
@@ -131,15 +161,15 @@
     {% else %}
         <div class="list-group">
             {% for post in postsList %}
-                <div class="list-group-item list-group-item-action mb-3 rounded">
+                <div class="list-group-item  mb-3 rounded">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{ post.tittle }}</h5>
-                        <small class="text-muted">{{ post.date }}</small>
+                        <small class="text-mu">{{ post.date }}</small>
                     </div>
                     <p class="mb-1">{{ post.content }}</p>
-                    <small class="text-primary">Por {{ post.user.username }}</small>
+                    <small class="usuario">Por {{ post.user.username }}</small>
                     <div class="mt-2">
-                        <a href="/posts/{{post.id}}" class="btn btn-outline-primary btn-sm" style="border-color:#a88f4a; color:#a88f4a;">Ver comentarios</a>
+                        <a href="/posts/{{post.id}}">Ver comentarios</a>
                     </div>
                 </div>
             {% endfor %}
