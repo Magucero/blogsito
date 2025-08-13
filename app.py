@@ -34,7 +34,6 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-
 @app.route('/')
 def index():
     posts_list = Posts.query.all()
