@@ -1,5 +1,5 @@
 import requests
-from datetime import datetime
+from datetime import datetime,timedelta
 from flask import Flask, redirect, flash, render_template, request,url_for
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -14,14 +14,30 @@ from werkzeug.security import (
     check_password_hash,
     generate_password_hash)
 
+#recomendacion de chatgpt
+
+from flask_jwt_extended import JWTManager
+
+
+#fin de la recomendacion
+
 app = Flask(__name__)
 
-app.secret_key = 'cualuiercosa'
+# --- CONFIGURACIÓN BÁSICA ---
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:@localhost/blogsito2"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:@localhost/blogsito"
+# --- CLAVES Y JWT ---
+app.config['SECRET_KEY'] = 'cualquiercosa'
+app.config['JWT_SECRET_KEY'] = 'clave-secreta-jwt'  # usá una aleatoria fuerte
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=24)
 
 db = SQLAlchemy(app)
-migrate = Migrate(app,db)
+migrate = Migrate(app, db)
+
+# --- INICIALIZAR JWT ---
+jwt = JWTManager(app)
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
