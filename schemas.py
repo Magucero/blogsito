@@ -1,21 +1,19 @@
 from flask_marshmallow import Marshmallow
-from marshmallow import fields, validate
+from marshmallow import Schema, fields, validate, ValidationError
 from models import User, Post, Comentario
 
 ma = Marshmallow()
 
 # =====================================================
-# 👤 USER SCHEMA
+# 👤 USER SCHEMA - serialización
 # =====================================================
 class UserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = User
         load_instance = True
         include_fk = True
-        # No mostrar campos sensibles
-        exclude = ("is_active",)
+        exclude = ("password", "is_active")  # Nunca exponer password
 
-    # Campos explícitos
     id = fields.Int(dump_only=True)
     username = fields.Str(required=True, validate=validate.Length(min=3, max=100))
     email = fields.Email(required=True)
@@ -24,7 +22,7 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
 
 
 # =====================================================
-# 📰 POST SCHEMA
+# 📰 POST SCHEMA - serialización
 # =====================================================
 class PostSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
@@ -33,13 +31,11 @@ class PostSchema(ma.SQLAlchemyAutoSchema):
         include_fk = True
 
     id = fields.Int(dump_only=True)
-    title = fields.Str(required=True, validate=validate.Length(min=3))
-    content = fields.Str(required=True)
+    title = fields.Str(required=True, validate=validate.Length(min=3, max=100))
+    content = fields.Str(required=True, validate=validate.Length(min=5))
     date = fields.DateTime(dump_only=True)
     updated_at = fields.DateTime(dump_only=True)
     is_published = fields.Bool()
-
-    # Mostrar el autor como string
     author = fields.Method("get_author", dump_only=True)
 
     def get_author(self, obj):
@@ -47,7 +43,7 @@ class PostSchema(ma.SQLAlchemyAutoSchema):
 
 
 # =====================================================
-# 💬 COMMENT SCHEMA
+# 💬 COMMENT SCHEMA - serialización
 # =====================================================
 class CommentSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
@@ -56,11 +52,9 @@ class CommentSchema(ma.SQLAlchemyAutoSchema):
         include_fk = True
 
     id = fields.Int(dump_only=True)
-    contenido = fields.Str(required=True)
+    contenido = fields.Str(required=True, validate=validate.Length(min=1, max=300))
     date = fields.DateTime(dump_only=True)
     is_visible = fields.Bool()
-
-    # Mostrar nombre del usuario y título del post
     autor = fields.Method("get_user", dump_only=True)
     post_title = fields.Method("get_post", dump_only=True)
 
@@ -72,13 +66,24 @@ class CommentSchema(ma.SQLAlchemyAutoSchema):
 
 
 # =====================================================
-# 🗂️ CATEGORY SCHEMA (opcional)
+# 📦 SCHEMAS DE VALIDACIÓN (para requests)
 # =====================================================
-# Si después agregás Category al models.py:
-# class CategorySchema(ma.SQLAlchemyAutoSchema):
-#     class Meta:
-#         model = Category
-#         load_instance = True
-#     id = fields.Int(dump_only=True)
-#     name = fields.Str(required=True)
-#     description = fields.Str()
+
+class RegisterSchema(Schema):
+    username = fields.Str(required=True, validate=validate.Length(min=3, max=50))
+    email = fields.Email(required=True)
+    password = fields.Str(required=True, validate=validate.Length(min=6))
+
+
+class LoginSchema(Schema):
+    email = fields.Email(required=True)
+    password = fields.Str(required=True, validate=validate.Length(min=6))
+
+
+class CreatePostSchema(Schema):
+    title = fields.Str(required=True, validate=validate.Length(min=3, max=100))
+    content = fields.Str(required=True, validate=validate.Length(min=5))
+
+
+class CreateCommentSchema(Schema):
+    contenido = fields.Str(required=True, validate=validate.Length(min=1, max=300))

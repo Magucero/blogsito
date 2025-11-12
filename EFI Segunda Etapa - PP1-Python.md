@@ -45,7 +45,7 @@ Implementa **tres roles** con los siguientes permisos:
 - Crear, editar y eliminar categorías
 - Gestionar usuarios (ver lista, cambiar roles, desactivar usuarios)
 - Ver estadísticas completas del sistema
-
+----listo
 ---
 
 ### 2. Modelos a Modificar/Crear
@@ -71,7 +71,7 @@ Agregar:
 Agregar:
 - `is_visible`: Boolean - default: True (para moderación)
 
----
+--- listo
 
 ### 3. Endpoints a Implementar
 
@@ -149,6 +149,7 @@ Crear decoradores personalizados:
 def delete_comment(id):
     # lógica
 ```
+listo
 
 #### **Validación con Marshmallow**
 - Todos los endpoints deben validar datos de entrada con schemas
@@ -181,7 +182,7 @@ Organiza tu código siguiendo el patrón **service-repository**:
   /decorators   # Decoradores personalizados
   app.py        # Configuración y rutas
 ```
-
+i do but now is imposible
 **Ejemplo:**
 ```python
 # repositories/post_repository.py
