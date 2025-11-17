@@ -8,7 +8,7 @@ API REST construida con **Flask**, **SQLAlchemy** y **JWT**, que permite manejar
 
 ### 1️⃣ Clonar el repositorio
 ```bash
-git clone https://github.com/tuusuario/blogEfi.git
+git clone https://github.com/magucero/blogEfi.git
 cd blogEfi
 ```
 
