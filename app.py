@@ -48,6 +48,11 @@ from views import (
     StatsAPI,
 )
 
+from flask_cors import CORS
+
+CORS(app)
+
+
 # --- ENDPOINTS ---
 app.add_url_rule("/api/register", view_func=RegisterAPI.as_view("register_api"))
 app.add_url_rule("/api/login", view_func=LoginAPI.as_view("login_api"))
