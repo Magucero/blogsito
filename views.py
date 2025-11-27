@@ -13,13 +13,26 @@ from functools import wraps
 from sqlalchemy import func
 
 from models import db, User, UserCredentials, Post, Comentario
-from schemas import PostSchema, CommentSchema, RegisterSchema
+from schemas import PostSchema, CommentSchema, RegisterSchema, UserSchema
 from marshmallow import ValidationError
 from schemas import CreatePostSchema,PostSchema,CommentSchema, CreateCommentSchema
 
 # =====================================================
 # 🔐 AUTENTICACIÓN
 # =====================================================
+
+class UsersAPI(MethodView):
+    def get(self):
+        users = User.query.all()
+        result = UserSchema(many=True).dump(users)
+        return jsonify(result), 200
+
+class UserDetailAPI(MethodView):
+    def get(self, user_id):
+        user = User.query.get_or_404(user_id)
+        result = UserSchema().dump(user)
+        return jsonify(result), 200
+
 
 class RegisterAPI(MethodView):
     def post(self):
@@ -31,20 +44,19 @@ class RegisterAPI(MethodView):
         if User.query.filter_by(email=data["email"]).first():
             return jsonify({"error": "El email ya está registrado"}), 400
 
-        user = User(username=data["username"], email=data["email"])
+        user = User(username=data["username"], email=data["email"],role = data["role"])
         db.session.add(user)
         db.session.commit()
 
         creds = UserCredentials(
             user_id=user.id,
             password_hash=generate_password_hash(data["password"]),
-            role="user"
+            
         )
         db.session.add(creds)
         db.session.commit()
 
         return jsonify({"message": "Usuario creado", "user_id": user.id}), 201
-
 
 class LoginAPI(MethodView):
     def post(self):

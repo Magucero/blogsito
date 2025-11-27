@@ -17,7 +17,7 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
     id = fields.Int(dump_only=True)
     username = fields.Str(required=True, validate=validate.Length(min=3, max=100))
     email = fields.Email(required=True)
-    role = fields.Str(dump_only=True)
+    role = fields.Str(required=True)
     created_at = fields.DateTime(dump_only=True)
 
 
@@ -73,7 +73,10 @@ class RegisterSchema(Schema):
     username = fields.Str(required=True, validate=validate.Length(min=3, max=50))
     email = fields.Email(required=True)
     password = fields.Str(required=True, validate=validate.Length(min=6))
-    
+    role = fields.Str(
+        required=True,
+        validate=validate.OneOf(["admin", "user", "moderador"])
+    )
 
 
 class LoginSchema(Schema):
@@ -88,3 +91,15 @@ class CreatePostSchema(Schema):
 
 class CreateCommentSchema(Schema):
     contenido = fields.Str(required=True, validate=validate.Length(min=1, max=300))
+
+
+
+#optener usuarios
+
+class UserSchema(Schema):
+    id = fields.Int()
+    username = fields.Str()
+    email = fields.Email()
+    role = fields.Str()
+    is_active = fields.Bool()
+    created_at = fields.DateTime()
