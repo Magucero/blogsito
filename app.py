@@ -46,6 +46,8 @@ from views import (
     CommentListAPI,
     CommentDetailAPI,
     StatsAPI,
+    UsersAPI,
+    UserDetailAPI
 )
 
 from flask_cors import CORS
@@ -56,6 +58,10 @@ CORS(app)
 # --- ENDPOINTS ---
 app.add_url_rule("/api/register", view_func=RegisterAPI.as_view("register_api"))
 app.add_url_rule("/api/login", view_func=LoginAPI.as_view("login_api"))
+
+app.add_url_rule("/api/users", view_func=UsersAPI.as_view("users_list"))
+app.add_url_rule("/api/users/<int:user_id>", view_func=UserDetailAPI.as_view("user_detail"))
+
 
 app.add_url_rule("/api/posts", view_func=PostListAPI.as_view("posts_api"))
 app.add_url_rule("/api/posts/<int:id>", view_func=PostDetailAPI.as_view("post_detail_api"))
