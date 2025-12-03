@@ -70,7 +70,7 @@ app.add_url_rule(
     "/api/posts/<int:id>/comments", view_func=CommentListAPI.as_view("comments_api")
 )
 app.add_url_rule(
-    "/api/comments/<int:id>", view_func=CommentDetailAPI.as_view("comment_detail_api")
+    "/api/posts/<int:id>/comments/<int:id>", view_func=CommentDetailAPI.as_view("comment_detail_api")
 )
 
 app.add_url_rule("/api/stats", view_func=StatsAPI.as_view("stats_api"))

@@ -193,9 +193,6 @@ class PostDetailAPI(MethodView):
 comment_schema = CommentSchema()
 comments_schema = CommentSchema(many=True)
 
-# =====================================================
-# 💬 COMENTARIOS
-# =====================================================
 
 def can_delete_comment(identity, comment):
     return (
