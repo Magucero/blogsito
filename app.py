@@ -64,19 +64,26 @@ app.add_url_rule("/api/users/<int:user_id>", view_func=UserDetailAPI.as_view("us
 
 
 app.add_url_rule("/api/posts", view_func=PostListAPI.as_view("posts_api"))
+
+# ruta para operar posts
 app.add_url_rule("/api/posts/<int:id>", view_func=PostDetailAPI.as_view("post_detail_api"))
 
+#ruta para craar comentarios
 app.add_url_rule(
     "/api/posts/<int:id>/comments", view_func=CommentListAPI.as_view("comments_api")
 )
+
+#ruta para borrar y editar comentarios
 app.add_url_rule(
-    "/api/posts/<int:id>/comments/<int:id>", view_func=CommentDetailAPI.as_view("comment_detail_api")
+    "/api/comments/<int:id>",
+    view_func=CommentDetailAPI.as_view("comment_detail_api")
 )
+
+
 
 app.add_url_rule("/api/stats", view_func=StatsAPI.as_view("stats_api"))
 
 # --- MAIN ---
 if __name__ == "__main__":
     app.run(debug=True)
-
 

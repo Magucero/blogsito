@@ -201,6 +201,7 @@ def can_delete_comment(identity, comment):
     )
 
 
+#comentarios
 class CommentListAPI(MethodView):
     # ------------------------------------------------
     # 📋 GET - Listar comentarios de un post
@@ -242,11 +243,90 @@ class CommentListAPI(MethodView):
             "comment_id": comentario.id
         }), 201
 
+##comentarios editar y deletear
+
+from flask_jwt_extended import get_jwt
+
+def can_edit_comment(user_id, comment):
+    """Autor o admin/moderador pueden editar comentarios"""
+    claims = get_jwt()
+    role = claims.get("role")
+
+    return (
+        role in ["admin", "moderador"] or
+        user_id == comment.user_id
+    )
+
+
+def can_delete_comment(user_id, comment):
+    """Autor o admin/moderador pueden eliminar comentarios"""
+    claims = get_jwt()
+    role = claims.get("role")
+
+    return (
+        role in ["admin", "moderador"] or
+        user_id == comment.user_id
+    )
+
+
+
+
 class CommentDetailAPI(MethodView):
+
+    # ------------------------------------------------
+    # 📋 GET - Obtener un comentario por ID
+    # ------------------------------------------------
+    def get(self, id):
+        comment = Comentario.query.get_or_404(id)
+        return jsonify(CommentSchema().dump(comment)), 200
+
+    # ------------------------------------------------
+    # ✏️ PUT - Editar comentario (reemplaza todo el contenido)
+    # ------------------------------------------------
+    @jwt_required()
+    def put(self, id):
+        identity = int(get_jwt_identity())
+        comment = Comentario.query.get_or_404(id)
+
+        if not can_edit_comment(identity, comment):
+            return jsonify({"error": "No autorizado"}), 403
+
+        data = request.get_json()
+        try:
+            validated = CreateCommentSchema().load(data)
+        except ValidationError as err:
+            return jsonify({"errors": err.messages}), 400
+
+        comment.contenido = validated["contenido"]
+        db.session.commit()
+
+        return jsonify({"message": "Comentario actualizado correctamente"}), 200
+
+    # ------------------------------------------------
+    # ✏️ PATCH - Editar parcialmente (solo contenido)
+    # ------------------------------------------------
+    @jwt_required()
+    def patch(self, id):
+        identity = int(get_jwt_identity())
+        comment = Comentario.query.get_or_404(id)
+
+        if not can_edit_comment(identity, comment):
+            return jsonify({"error": "No autorizado"}), 403
+
+        data = request.get_json()
+        if "contenido" in data:
+            comment.contenido = data["contenido"]
+
+        db.session.commit()
+
+        return jsonify({"message": "Comentario actualizado parcialmente"}), 200
+
+    # ------------------------------------------------
+    # 🗑️ DELETE - Eliminar comentario
+    # ------------------------------------------------
     @jwt_required()
     def delete(self, id):
-        """Eliminar comentario (autor, moderador o admin)"""
-        identity = get_jwt_identity()
+        identity = int(get_jwt_identity())
         comment = Comentario.query.get_or_404(id)
 
         if not can_delete_comment(identity, comment):
@@ -254,7 +334,10 @@ class CommentDetailAPI(MethodView):
 
         db.session.delete(comment)
         db.session.commit()
-        return jsonify({"message": "Comentario eliminado correctamente"})
+        return jsonify({"message": "Comentario eliminado correctamente"}), 200
+
+
+
 # =====================================================
 # 🧮 ESTADÍSTICAS
 # =====================================================
